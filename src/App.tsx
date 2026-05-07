@@ -1,5 +1,11 @@
 import { useMemo, useState } from "react";
-import type { FormEvent } from "react";
+import BranchFooter from "./components/BranchFooter";
+import Header from "./components/Header";
+import QuestionCard from "./components/QuestionCard";
+import SubmitButton from "./components/SubmitButton";
+import SuccessMessage from "./components/SuccessMessage";
+import TextInput from "./components/TextInput";
+import TimeSelector from "./components/TimeSelector";
 
 type FormData = {
   nombreCompleto: string;
@@ -9,12 +15,8 @@ type FormData = {
   quiereMasInfo: "si" | "no" | "";
   horarioLlamada: "manana" | "tarde" | "";
 };
-type SurveyAnswer = {
-  codigoPregunta: string;
-  valor: string;
-};
 
-const initialForm: FormData = {
+const ESTADO_INICIAL: FormData = {
   nombreCompleto: "",
   barrio: "",
   conoceFirma: "",
@@ -24,36 +26,26 @@ const initialForm: FormData = {
 };
 
 function obtenerCodigoPromotor(codigoCrudo: string): string {
-  const normalizado = codigoCrudo.toLowerCase();
-  const coincidencia = normalizado.match(/_v(\d{1,2})$/);
-  if (coincidencia) {
-    return `v${coincidencia[1]}`;
-  }
-  return "sin_codigo";
+  const coincidencia = codigoCrudo.toLowerCase().match(/_v(\d{1,2})$/);
+  return coincidencia ? `v${coincidencia[1]}` : "sin_codigo";
 }
 
 function obtenerIdSorteo(codigoCrudo: string): string {
-  const normalizado = codigoCrudo.toLowerCase();
-  const coincidencia = normalizado.match(/(sorteo\d{1,3})/);
-  if (coincidencia) {
-    return coincidencia[1];
-  }
-  return "sorteo_default";
+  const coincidencia = codigoCrudo.toLowerCase().match(/(sorteo\d{1,3})/);
+  return coincidencia ? coincidencia[1] : "sorteo_default";
 }
 
 function formatearNombreSorteo(idSorteo: string): string {
   const coincidencia = idSorteo.match(/^sorteo(\d{1,3})$/i);
-  if (!coincidencia) {
-    return "Sorteo vigente";
-  }
-  return `Sorteo ${coincidencia[1]}`;
+  return coincidencia ? `Sorteo ${coincidencia[1]}` : "Sorteo vigente";
 }
 
-export default function App() {
-  const [formulario, setFormulario] = useState<FormData>(initialForm);
-  const [cargando, setCargando] = useState(false);
-  const [mensajeOk, setMensajeOk] = useState("");
-  const [mensajeError, setMensajeError] = useState("");
+function App() {
+  const [datos, setDatos] = useState<FormData>(ESTADO_INICIAL);
+  const [errores, setErrores] = useState<string[]>([]);
+  const [enviando, setEnviando] = useState(false);
+  const [enviado, setEnviado] = useState(false);
+  const [errorEnvio, setErrorEnvio] = useState("");
 
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
   const codigoQr =
@@ -79,44 +71,49 @@ export default function App() {
     formatearNombreSorteo(idSorteo);
   const mensajeWhatsapp = params.get("wa_msg") ?? codigoQr;
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setMensajeOk("");
-    setMensajeError("");
+  const actualizarCampo = <K extends keyof FormData>(campo: K, valor: FormData[K]) => {
+    setDatos((prev) => {
+      const nuevo = { ...prev, [campo]: valor };
+      if (campo === "quiereMasInfo" && valor === "no") {
+        nuevo.horarioLlamada = "";
+      }
+      return nuevo;
+    });
+  };
 
-    if (
-      !formulario.conoceFirma ||
-      !formulario.conoceCuota55000 ||
-      !formulario.quiereMasInfo
-    ) {
-      setMensajeError("Completa todas las preguntas antes de continuar.");
-      return;
+  const validar = () => {
+    const erroresNuevos: string[] = [];
+    if (!datos.nombreCompleto.trim()) erroresNuevos.push("Ingresa tu nombre y apellido.");
+    if (!datos.barrio.trim()) erroresNuevos.push("Ingresa tu barrio o direccion.");
+    if (!datos.conoceFirma || !datos.conoceCuota55000 || !datos.quiereMasInfo) {
+      erroresNuevos.push("Responde todas las preguntas obligatorias.");
     }
-
-    if (formulario.quiereMasInfo === "si" && !formulario.horarioLlamada) {
-      setMensajeError("Si queres mas informacion, selecciona un horario de llamado.");
-      return;
+    if (datos.quiereMasInfo === "si" && !datos.horarioLlamada) {
+      erroresNuevos.push("Selecciona un horario de llamado.");
     }
+    setErrores(erroresNuevos);
+    return erroresNuevos.length === 0;
+  };
 
-    setCargando(true);
+  const handleSubmit = async () => {
+    setErrorEnvio("");
+    if (!validar()) return;
 
     try {
-      const respuestas: SurveyAnswer[] = [
-        { codigoPregunta: "conoce_firma", valor: formulario.conoceFirma },
-        { codigoPregunta: "conoce_cuota_55000", valor: formulario.conoceCuota55000 },
-        { codigoPregunta: "quiere_mas_info", valor: formulario.quiereMasInfo },
+      setEnviando(true);
+      const respuestas: Array<{ codigoPregunta: string; valor: string }> = [
+        { codigoPregunta: "conoce_firma", valor: datos.conoceFirma },
+        { codigoPregunta: "conoce_cuota_55000", valor: datos.conoceCuota55000 },
+        { codigoPregunta: "quiere_mas_info", valor: datos.quiereMasInfo },
       ];
-      if (formulario.quiereMasInfo === "si") {
-        respuestas.push({
-          codigoPregunta: "horario_llamada",
-          valor: formulario.horarioLlamada,
-        });
+      if (datos.quiereMasInfo === "si") {
+        respuestas.push({ codigoPregunta: "horario_llamada", valor: datos.horarioLlamada });
       }
 
       const payload = {
         participante: {
-          nombreCompleto: formulario.nombreCompleto,
-          barrio: formulario.barrio,
+          nombreCompleto: datos.nombreCompleto,
+          barrio: datos.barrio,
         },
         respuestas,
         codigoPromotor,
@@ -129,170 +126,128 @@ export default function App() {
 
       const response = await fetch("/api/survey", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as { message?: string };
-        throw new Error(body.message ?? "No se pudo guardar la encuesta.");
+        throw new Error(body.message ?? "No pudimos enviar la encuesta. Intenta nuevamente.");
       }
-
-      setMensajeOk("Registro completado. Gracias por participar del sorteo.");
-      setFormulario(initialForm);
+      setEnviado(true);
     } catch (error) {
-      setMensajeError(error instanceof Error ? error.message : "Error inesperado al enviar.");
+      setErrorEnvio(error instanceof Error ? error.message : "Error inesperado al enviar.");
     } finally {
-      setCargando(false);
+      setEnviando(false);
     }
   };
 
+  const iconoPersona = (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21a8 8 0 0 1 16 0v1H4Z" />
+    </svg>
+  );
+  const iconoPin = (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2a8 8 0 0 0-8 8c0 5.5 7.1 11.4 7.4 11.7a1 1 0 0 0 1.2 0C12.9 21.4 20 15.5 20 10a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+    </svg>
+  );
+  const iconoInfo = (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1.4 1.4 0 1 1 0 2.8A1.4 1.4 0 0 1 12 7Zm1.5 11h-3v-1h.5a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-.5v-1h2.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 0 .5.5h.5v1Z" />
+    </svg>
+  );
+  const iconoDolar = (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2v20" />
+      <path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  );
+  const iconoChat = (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4 4h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+      <path d="M20 9h.5a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H20v3l-3-3h-5v-2h7a1 1 0 0 0 1-1V9Z" />
+    </svg>
+  );
+
   return (
-    <main className="page">
-      <section className="card">
-        <img
-          src="/mi-primera-casa-logo.png"
-          alt="Mi Primera Casa"
-          className="brand-logo"
-        />
-        <h1>SORTEO GRATIS</h1>
-        <p className="subtitle">{nombreSorteo}: dos motocicletas 110cc y un terreno</p>
-        <p className="helper-text">
-          Completa esta encuesta breve para participar. Te lleva menos de 1 minuto.
-        </p>
+    <div className="app-container">
+      <Header />
 
-        <form className="survey-form" onSubmit={onSubmit}>
-          <label>
-            Nombre y apellido
-            <input
-              value={formulario.nombreCompleto}
-              onChange={(event) =>
-                setFormulario({ ...formulario, nombreCompleto: event.target.value })
-              }
-              required
-              maxLength={120}
+      {enviado ? (
+        <SuccessMessage />
+      ) : (
+        <>
+          <main className="card-principal">
+            <TextInput
+              name="nombreCompleto"
+              icono={iconoPersona}
+              placeholder="Nombre y apellido"
+              value={datos.nombreCompleto}
+              onChange={(v) => actualizarCampo("nombreCompleto", v)}
+              autoComplete="name"
             />
-          </label>
-
-          <label>
-            Barrio
-            <input
-              value={formulario.barrio}
-              onChange={(event) => setFormulario({ ...formulario, barrio: event.target.value })}
-              required
-              maxLength={80}
+            <TextInput
+              name="barrio"
+              icono={iconoPin}
+              placeholder="Barrio o direccion"
+              value={datos.barrio}
+              onChange={(v) => actualizarCampo("barrio", v)}
+              autoComplete="street-address"
             />
-          </label>
 
-          <fieldset className="question">
-            <legend>Conoce la firma Mi Primera Casa?</legend>
-            <label className="option">
-              <input
-                type="checkbox"
-                checked={formulario.conoceFirma === "si"}
-                onChange={() => setFormulario({ ...formulario, conoceFirma: "si" })}
-              />
-              Si
-            </label>
-            <label className="option">
-              <input
-                type="checkbox"
-                checked={formulario.conoceFirma === "no"}
-                onChange={() => setFormulario({ ...formulario, conoceFirma: "no" })}
-              />
-              No
-            </label>
-          </fieldset>
+            <QuestionCard
+              icono={iconoInfo}
+              pregunta="Conoces la inmobiliaria Mi Primera Casa S.A.?"
+              valorSeleccionado={datos.conoceFirma}
+              onChange={(v) => actualizarCampo("conoceFirma", v)}
+            />
+            <QuestionCard
+              icono={iconoDolar}
+              pregunta="Sabias que con $55.000 por mes (cuotas fijas) comenzas pagando tu terreno?"
+              valorSeleccionado={datos.conoceCuota55000}
+              onChange={(v) => actualizarCampo("conoceCuota55000", v)}
+            />
+            <QuestionCard
+              icono={iconoChat}
+              pregunta="Queres mas informacion?"
+              hint="Si elegis Si, podras indicar el horario de contacto."
+              valorSeleccionado={datos.quiereMasInfo}
+              onChange={(v) => actualizarCampo("quiereMasInfo", v)}
+            />
+            <TimeSelector
+              valorSeleccionado={datos.horarioLlamada}
+              onChange={(v) => actualizarCampo("horarioLlamada", v)}
+              deshabilitado={datos.quiereMasInfo !== "si"}
+            />
 
-          <fieldset className="question">
-            <legend>
-              Sabias que con $55.000 pesos por mes (cuotas fijas) ya arrancas pagando tu
-              terreno?
-            </legend>
-            <label className="option">
-              <input
-                type="checkbox"
-                checked={formulario.conoceCuota55000 === "si"}
-                onChange={() =>
-                  setFormulario({ ...formulario, conoceCuota55000: "si" })
-                }
-              />
-              Si
-            </label>
-            <label className="option">
-              <input
-                type="checkbox"
-                checked={formulario.conoceCuota55000 === "no"}
-                onChange={() =>
-                  setFormulario({ ...formulario, conoceCuota55000: "no" })
-                }
-              />
-              No
-            </label>
-          </fieldset>
+            {errores.length > 0 ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {errores.map((msg) => (
+                  <div className="error-mensaje" key={msg}>
+                    {msg}
+                  </div>
+                ))}
+              </div>
+            ) : null}
 
-          <fieldset className="question">
-            <legend>Queres mas informacion?</legend>
-            <label className="option">
-              <input
-                type="checkbox"
-                checked={formulario.quiereMasInfo === "si"}
-                onChange={() => setFormulario({ ...formulario, quiereMasInfo: "si" })}
-              />
-              Si
-            </label>
-            <label className="option">
-              <input
-                type="checkbox"
-                checked={formulario.quiereMasInfo === "no"}
-                onChange={() =>
-                  setFormulario({
-                    ...formulario,
-                    quiereMasInfo: "no",
-                    horarioLlamada: "",
-                  })
-                }
-              />
-              No
-            </label>
-          </fieldset>
+            {errorEnvio ? <div className="error-mensaje">{errorEnvio}</div> : null}
+          </main>
 
-          {formulario.quiereMasInfo === "si" ? (
-            <fieldset className="question">
-              <legend>En que horario puede recibir llamadas?</legend>
-              <label className="option">
-                <input
-                  type="checkbox"
-                  checked={formulario.horarioLlamada === "manana"}
-                  onChange={() =>
-                    setFormulario({ ...formulario, horarioLlamada: "manana" })
-                  }
-                />
-                Manana
-              </label>
-              <label className="option">
-                <input
-                  type="checkbox"
-                  checked={formulario.horarioLlamada === "tarde"}
-                  onChange={() =>
-                    setFormulario({ ...formulario, horarioLlamada: "tarde" })
-                  }
-                />
-                Tarde
-              </label>
-            </fieldset>
-          ) : null}
+          <SubmitButton enviando={enviando} onClick={handleSubmit} />
+        </>
+      )}
 
-          <button type="submit" disabled={cargando}>
-            {cargando ? "Enviando..." : "Participar del sorteo"}
-          </button>
-        </form>
-
-        {mensajeOk ? <p className="ok-message">{mensajeOk}</p> : null}
-        {mensajeError ? <p className="error-message">{mensajeError}</p> : null}
-      </section>
-    </main>
+      <BranchFooter />
+    </div>
   );
 }
+
+export default App;

@@ -1,24 +1,50 @@
 :root {
-  --brand-red: #b6001a;
-  --brand-red-dark: #910015;
-  --brand-white: #ffffff;
-  --text-main: #1f1f1f;
-  --text-soft: #666;
-  --line: #ead3d8;
-  --line-strong: #d8b6be;
+  --color-rojo: #c8111a;
+  --color-rojo-oscuro: #7a0a10;
+  --color-rojo-suave: #fdf0f0;
+  --color-blanco: #ffffff;
+  --color-negro: #1a1a1a;
+  --color-gris-texto: #4a4a4a;
+  --color-gris-borde: #e8e8e8;
+  --color-gris-deshabilitado: #b8b8b8;
   --ok: #0f6f3f;
   --error: #b00020;
-  font-family: "Segoe UI", Arial, sans-serif;
+  --radio-card: 18px;
+  --radio-input: 12px;
+  --radio-boton: 8px;
+  --sombra-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --sombra-rojo-suave: 0 4px 12px rgba(200, 17, 26, 0.25);
+  --sombra-rojo-fuerte: 0 8px 20px rgba(200, 17, 26, 0.35);
+  --espacio-sm: 10px;
+  --espacio-md: 16px;
+  --espacio-lg: 24px;
+  --espacio-xl: 32px;
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  background: radial-gradient(circle at top, #fff 10%, #fff3f5 70%);
-  color: var(--text-main);
+  color: var(--color-negro);
+  background-color: var(--color-rojo);
+  background-image: radial-gradient(
+      ellipse at 50% -10%,
+      rgba(255, 255, 255, 0.18) 0%,
+      transparent 55%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(255, 255, 255, 0.025) 28px,
+      rgba(255, 255, 255, 0.025) 30px
+    ),
+    linear-gradient(180deg, var(--color-rojo) 0%, var(--color-rojo-oscuro) 100%);
+  background-attachment: fixed;
 }
 
 #app {
@@ -28,126 +54,129 @@ body {
 .page {
   display: flex;
   justify-content: center;
-  padding: 24px 14px;
+  padding: var(--espacio-lg) var(--espacio-md) var(--espacio-xl);
 }
 
 .card {
   width: 100%;
   max-width: 620px;
-  background: var(--brand-white);
-  border: 1px solid var(--line-strong);
-  border-radius: 20px;
-  padding: 28px 22px;
-  box-shadow: 0 14px 34px rgba(182, 0, 26, 0.12);
+  background: var(--color-blanco);
+  border-radius: var(--radio-card);
+  padding: var(--espacio-lg);
+  box-shadow: var(--sombra-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
 }
 
 .brand-logo {
   display: block;
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
-  margin: 0 auto 8px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  padding: 6px;
+  background: var(--color-blanco);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 h1 {
-  margin: 10px 0 6px;
   text-align: center;
-  color: var(--brand-red);
-  font-size: 1.9rem;
-  letter-spacing: 0.5px;
+  color: var(--color-rojo);
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
 }
 
 .subtitle {
-  margin: 0;
   text-align: center;
-}
-
-.subtitle {
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 8px;
-  font-size: 1.06rem;
+  color: var(--color-gris-texto);
 }
 
+.subtitle {
 .helper-text {
-  margin: 0 0 10px;
   text-align: center;
-  color: var(--text-soft);
-  font-size: 0.96rem;
+  color: var(--color-gris-texto);
+  font-size: 0.92rem;
+  margin-bottom: var(--espacio-sm);
 }
 
 .survey-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--espacio-sm);
 }
 
 label {
   display: flex;
   flex-direction: column;
-  font-weight: 600;
   gap: 6px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-negro);
 }
 
 input {
-  border: 1px solid #d3d3d3;
-  border-radius: 10px;
+  border: 1px solid var(--color-gris-borde);
+  border-radius: var(--radio-input);
   padding: 11px 12px;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 input:focus {
-  outline: 2px solid rgba(182, 0, 26, 0.2);
-  border-color: var(--brand-red);
+  outline: 2px solid rgba(200, 17, 26, 0.12);
+  border-color: var(--color-rojo);
 }
 
 .question {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  margin: 0;
-  background: #fffdfd;
+  background: var(--color-blanco);
+  border: 1px solid var(--color-gris-borde);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-md);
 }
 
 .question legend {
-  color: var(--brand-red);
+  color: var(--color-negro);
   font-weight: 700;
-  margin-bottom: 10px;
+  font-size: 0.92rem;
   padding: 0 4px;
   line-height: 1.3;
 }
 
 .option {
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 10px;
   margin-top: 10px;
   font-weight: 600;
   cursor: pointer;
   user-select: none;
+  color: var(--color-negro);
 }
 
 .option input {
   appearance: none;
   -webkit-appearance: none;
-  width: 21px;
-  height: 21px;
-  border: 2px solid #c8c8c8;
-  border-radius: 4px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--color-rojo);
+  border-radius: var(--radio-boton);
   margin: 0;
   display: grid;
   place-content: center;
-  background: #fff;
+  background: var(--color-blanco);
   transition: all 0.15s ease;
 }
 
 .option input::before {
   content: "";
-  width: 10px;
+  width: 11px;
   height: 6px;
-  border-left: 2.4px solid var(--brand-red);
-  border-bottom: 2.4px solid var(--brand-red);
+  border-left: 2.5px solid var(--color-rojo);
+  border-bottom: 2.5px solid var(--color-rojo);
   transform: rotate(-45deg) scale(0);
   transform-origin: center;
   margin-bottom: 2px;
@@ -155,8 +184,8 @@ input:focus {
 }
 
 .option input:checked {
-  border-color: var(--brand-red);
-  background: #fff6f7;
+  border-color: var(--color-rojo);
+  background: var(--color-rojo-suave);
 }
 
 .option input:checked::before {
@@ -164,39 +193,43 @@ input:focus {
 }
 
 .option input:focus-visible {
-  outline: 2px solid rgba(182, 0, 26, 0.25);
+  outline: 2px solid rgba(200, 17, 26, 0.25);
   outline-offset: 2px;
 }
 
 button {
-  margin-top: 12px;
+  margin-top: var(--espacio-sm);
   border: none;
-  background: var(--brand-red);
-  color: var(--brand-white);
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 1.03rem;
-  font-weight: 700;
+  background: var(--color-rojo);
+  color: var(--color-blanco);
+  border-radius: var(--radio-card);
+  padding: 16px;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(182, 0, 26, 0.25);
+  box-shadow: var(--sombra-rojo-fuerte);
 }
 
 button:hover {
-  background: var(--brand-red-dark);
+  background: var(--color-rojo-oscuro);
 }
 
 button:disabled {
+  background: var(--color-gris-deshabilitado);
+  box-shadow: none;
   opacity: 0.7;
   cursor: not-allowed;
 }
 
 .ok-message,
 .error-message {
-  margin: 16px 0 0;
-  text-align: center;
+  margin-top: var(--espacio-sm);
   font-weight: 700;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: var(--radio-input);
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .ok-message {
@@ -207,4 +240,19 @@ button:disabled {
 .error-message {
   color: var(--error);
   background: #fff0f3;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: var(--espacio-md);
+  }
+
+  .brand-logo {
+    width: 118px;
+    height: 118px;
+  }
+
+  h1 {
+    font-size: 1.55rem;
+  }
 }

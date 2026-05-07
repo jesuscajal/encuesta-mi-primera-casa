@@ -1,0 +1,77 @@
+:root {
+  --color-rojo: #c8111a;
+  --color-rojo-oscuro: #7a0a10;
+  --color-rojo-claro: #e84450;
+  --color-rojo-suave: #fdf0f0;
+  --color-blanco: #ffffff;
+  --color-negro: #1a1a1a;
+  --color-gris-texto: #4a4a4a;
+  --color-gris-borde: #e8e8e8;
+  --color-gris-fondo: #f7f7f7;
+  --color-gris-deshabilitado: #b8b8b8;
+  --fuente-base: "Montserrat", system-ui, -apple-system, sans-serif;
+  --radio-card: 16px;
+  --radio-input: 12px;
+  --radio-boton: 10px;
+  --radio-pill: 999px;
+  --sombra-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --sombra-rojo-suave: 0 4px 12px rgba(200, 17, 26, 0.25);
+  --sombra-rojo-fuerte: 0 6px 16px rgba(200, 17, 26, 0.4);
+  --espacio-xs: 6px;
+  --espacio-sm: 10px;
+  --espacio-md: 16px;
+  --espacio-lg: 24px;
+  --espacio-xl: 32px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--fuente-base);
+  font-weight: 500;
+  color: var(--color-negro);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input {
+  font-family: inherit;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--color-rojo);
+  background-image: radial-gradient(
+      ellipse at 50% -10%,
+      rgba(255, 255, 255, 0.18) 0%,
+      transparent 55%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(255, 255, 255, 0.025) 28px,
+      rgba(255, 255, 255, 0.025) 30px
+    ),
+    linear-gradient(180deg, var(--color-rojo) 0%, var(--color-rojo-oscuro) 100%);
+  background-attachment: fixed;
+}

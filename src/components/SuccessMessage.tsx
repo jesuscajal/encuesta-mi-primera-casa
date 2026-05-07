@@ -1,0 +1,15 @@
+function SuccessMessage() {
+  return (
+    <div className="success-card" role="status" aria-live="polite">
+      <span className="success-card__icono-wrap" aria-hidden="true">
+        <span className="success-card__icono">✓</span>
+      </span>
+      <h2 className="success-card__titulo">Ya estas participando</h2>
+      <p className="success-card__mensaje">
+        Un asesor de Mi Primera Casa S.A. se pondra en contacto en breve.
+      </p>
+    </div>
+  );
+}
+
+export default SuccessMessage;
