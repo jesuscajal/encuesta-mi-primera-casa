@@ -47,7 +47,9 @@ function TimeSelector({ valorSeleccionado, onChange, deshabilitado }: Props) {
         <span className="time-selector__icono-wrap" aria-hidden="true">
           <span className="time-selector__icono">{iconoCalendario}</span>
         </span>
-        <p className="time-selector__pregunta">Que horario te queda mejor para que te llamemos?</p>
+        <p className="time-selector__pregunta">
+          ¿Qué horario te queda mejor para que te llamemos?
+        </p>
       </div>
       <div className="time-selector__opciones">
         <button
@@ -59,7 +61,7 @@ function TimeSelector({ valorSeleccionado, onChange, deshabilitado }: Props) {
           <span className="boton-opcion__icono" aria-hidden="true">
             {iconoSol}
           </span>
-          Manana
+          Mañana
         </button>
         <button
           type="button"

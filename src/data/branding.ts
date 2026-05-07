@@ -4,5 +4,5 @@ export const TEXTOS = {
   tituloPrincipal: "MI PRIMER CASA S.A.",
   badge: "COMPLETA Y PARTICIPA",
   subtitulo: "POR 2 MOTOS 110CC Y UN TERRENO",
-  fechaSorteo: "Sorteamos el 21 de Septiembre de 2026 ante escribano publico.",
+  fechaSorteo: "Sorteamos el 21 de septiembre de 2026 ante escribano público.",
 };
