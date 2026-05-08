@@ -242,7 +242,7 @@ function App() {
 
             <QuestionCard
               icono={iconoInfo}
-              pregunta="¿Conocés la inmobiliaria Mi Primera Casa S.A.?"
+              pregunta="¿Conocés la inmobiliaria Mi Primer Casa S.A.?"
               valorSeleccionado={datos.conoceFirma}
               onChange={(v) => actualizarCampo("conoceFirma", v)}
             />

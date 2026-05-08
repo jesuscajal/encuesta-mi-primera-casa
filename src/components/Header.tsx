@@ -10,7 +10,7 @@ function Header({ telefono, etiquetaPromotor }: Props) {
   return (
     <header className="header">
       <div className="header__logo-wrap">
-        <img className="header__logo" src={LOGO_URL} alt="Logo Mi Primera Casa S.A." />
+        <img className="header__logo" src={LOGO_URL} alt="Logo Mi Primer Casa S.A." />
       </div>
       <h1 className="header__titulo">{TEXTOS.tituloPrincipal}</h1>
       <span className="header__badge">{TEXTOS.badge}</span>

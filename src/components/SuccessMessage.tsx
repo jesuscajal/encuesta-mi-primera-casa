@@ -4,9 +4,9 @@ function SuccessMessage() {
       <span className="success-card__icono-wrap" aria-hidden="true">
         <span className="success-card__icono">✓</span>
       </span>
-      <h2 className="success-card__titulo">Ya estas participando</h2>
+      <h2 className="success-card__titulo">Ya estás participando</h2>
       <p className="success-card__mensaje">
-        Un asesor de Mi Primera Casa S.A. se pondra en contacto en breve.
+        Un asesor de Mi Primer Casa S.A. se pondrá en contacto en breve.
       </p>
     </div>
   );
