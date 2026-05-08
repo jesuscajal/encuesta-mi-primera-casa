@@ -1,21 +1,262 @@
-/* ---- Estilos para los items del footer cuando son links ---- */
-.sucursal,
-.red {
+/* ---- Footer tarjeta blanca ---- */
+
+.footer {
+  background: var(--color-blanco);
+  border-radius: var(--radio-card);
+  box-shadow: var(--sombra-card);
+  padding: var(--espacio-lg) var(--espacio-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-lg);
+}
+
+.footer__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
+}
+
+/* Título con líneas rojas a los costados */
+.footer__titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-negro);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.footer__titulo::before,
+.footer__titulo::after {
+  content: '';
+  flex: 1;
+  max-width: 40px;
+  height: 2px;
+  background: var(--color-rojo);
+  border-radius: 1px;
+}
+
+/* Aclaración legal */
+.footer__aclaracion {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-gris-texto);
+  font-style: italic;
+  text-align: center;
+  padding-top: var(--espacio-md);
+  border-top: 1px solid var(--color-gris-borde);
+  line-height: 1.4;
+}
+
+/* ---- Sucursales — grilla 2 columnas ---- */
+
+.sucursales {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espacio-sm);
+}
+
+.sucursal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  padding: var(--espacio-sm);
+  border-radius: var(--radio-input);
+  border: 1px solid var(--color-gris-borde);
+  background: var(--color-blanco);
   text-decoration: none;
-  color: inherit;
+  color: var(--color-negro);
+  font-family: inherit;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity 0.15s ease;
 }
 
-.sucursal:hover,
+.sucursal:hover:not(:disabled) {
+  opacity: 0.7;
+}
+
+.sucursal:focus-visible {
+  outline: 2px solid var(--color-rojo);
+  outline-offset: 3px;
+}
+
+.sucursal--bloqueada {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.sucursal__icono {
+  color: var(--color-rojo);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sucursal__icono svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.sucursal__tipo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-negro);
+}
+
+.sucursal__direccion {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-gris-texto);
+}
+
+/* ---- Redes sociales — horizontal con separador ---- */
+
+.redes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-md);
+}
+
+.red {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-xs);
+  text-decoration: none;
+  color: var(--color-negro);
+  font-weight: 600;
+  font-size: 13px;
+  transition: opacity 0.15s ease;
+}
+
 .red:hover {
-  opacity: 0.75;
-  transform: translateY(-1px);
+  opacity: 0.7;
 }
 
-.sucursal:focus-visible,
 .red:focus-visible {
   outline: 2px solid var(--color-rojo);
   outline-offset: 4px;
-  border-radius: 6px;
+  border-radius: 4px;
+}
+
+.red__icono {
+  color: var(--color-rojo);
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.red__icono svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.red__handle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-negro);
+}
+
+.redes__separador {
+  width: 1px;
+  height: 24px;
+  background: var(--color-gris-borde);
+  flex-shrink: 0;
+}
+
+/* ---- Pantallas muy pequeñas (< 360px) ---- */
+@media (max-width: 359px) {
+  .sucursales {
+    grid-template-columns: 1fr;
+  }
+
+  .sucursal {
+    padding: var(--espacio-xs);
+  }
+
+  .red {
+    font-size: 12px;
+  }
+
+  .red__icono,
+  .red__icono svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ---- Tablet y PC (>= 640px) ---- */
+@media (min-width: 640px) {
+  .footer {
+    padding: var(--espacio-xl) var(--espacio-lg);
+    gap: var(--espacio-xl);
+  }
+
+  .sucursales {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espacio-md);
+  }
+
+  .sucursal {
+    padding: var(--espacio-md);
+    gap: 6px;
+  }
+
+  .sucursal__icono,
+  .sucursal__icono svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sucursal__tipo {
+    font-size: 12px;
+  }
+
+  .sucursal__direccion {
+    font-size: 13px;
+  }
+
+  .footer__titulo {
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  .footer__aclaracion {
+    font-size: 12px;
+  }
+
+  .red {
+    font-size: 14px;
+    gap: var(--espacio-sm);
+  }
+
+  .red__icono,
+  .red__icono svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .redes {
+    gap: var(--espacio-lg);
+  }
+}
+
+/* ---- Desktop (>= 1024px) ---- */
+@media (min-width: 1024px) {
+  .sucursales {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

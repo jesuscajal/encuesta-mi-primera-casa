@@ -71,3 +71,45 @@
   height: 18px;
   display: block;
 }
+
+/* ---- Pantallas muy pequeñas (< 360px) ---- */
+@media (max-width: 359px) {
+  .boton-opcion {
+    font-size: 13px;
+    padding: 8px 10px;
+    min-width: 52px;
+    gap: 4px;
+  }
+
+  .boton-opcion__icono,
+  .boton-opcion__icono svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .boton-enviar {
+    font-size: 18px;
+    padding: 14px var(--espacio-md);
+  }
+}
+
+/* ---- Tablet y PC (>= 640px) ---- */
+@media (min-width: 640px) {
+  .boton-opcion {
+    font-size: 16px;
+    padding: 12px 18px;
+    min-width: 80px;
+  }
+
+  .boton-opcion__icono,
+  .boton-opcion__icono svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .boton-enviar {
+    font-size: 24px;
+    padding: 20px var(--espacio-lg);
+    letter-spacing: 3px;
+  }
+}

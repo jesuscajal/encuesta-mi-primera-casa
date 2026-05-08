@@ -1,19 +1,19 @@
+import { Fragment, type ReactElement } from 'react'
 import { SUCURSALES } from '../data/branches'
 import { REDES_SOCIALES } from '../data/socialLinks'
 import { TEXTOS } from '../data/branding'
 
-/**
- * Footer informativo: sucursales y redes sociales.
- * Sucursales → abren Google Maps en pestaña nueva.
- * Redes → abren la URL configurada en socialLinks.js en pestaña nueva.
- */
-function BranchFooter() {
-  // ---- Íconos SVG inline (sin librerías) ----
+interface Props {
+  desbloqueado: boolean
+}
+
+function BranchFooter({ desbloqueado }: Props) {
   const iconoPin = (
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2a8 8 0 0 0-8 8c0 5.5 7.1 11.4 7.4 11.7a1 1 0 0 0 1.2 0C12.9 21.4 20 15.5 20 10a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
     </svg>
   )
+
 
   const iconoInstagram = (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -29,18 +29,13 @@ function BranchFooter() {
     </svg>
   )
 
-  // Mapea cada red al ícono correspondiente
-  const iconosPorRed = {
+  const iconosPorRed: Record<string, ReactElement> = {
     Instagram: iconoInstagram,
     Facebook: iconoFacebook
   }
 
-  // Helper: genera la URL de Google Maps a partir de la dirección,
-  // o usa la URL custom si está definida.
-  const obtenerMapsUrl = (sucursal) => {
-    if (sucursal.mapsUrl && sucursal.mapsUrl.trim() !== '') {
-      return sucursal.mapsUrl
-    }
+  const obtenerMapsUrl = (sucursal: { direccion: string; mapsUrl?: string }) => {
+    if (sucursal.mapsUrl && sucursal.mapsUrl.trim() !== '') return sucursal.mapsUrl
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sucursal.direccion)}`
   }
 
@@ -48,24 +43,37 @@ function BranchFooter() {
     <footer className="footer">
       {/* ---- Sucursales ---- */}
       <section className="footer__seccion">
-        <h2 className="footer__titulo">NUESTRAS SUCURSALES</h2>
+        <h2 className="footer__titulo">
+          {desbloqueado ? 'NUESTRAS SUCURSALES' : 'ENVIÁ LA ENCUESTA PARA DESBLOQUEAR'}
+        </h2>
         <div className="sucursales">
-          {SUCURSALES.map((suc) => (
-            
-              key={suc.id}
-              className="sucursal"
-              href={obtenerMapsUrl(suc)}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Ver ${suc.tipo} en Google Maps: ${suc.direccion}`}
-            >
-              <span className="sucursal__icono" aria-hidden="true">
-                {iconoPin}
-              </span>
-              <span className="sucursal__tipo">{suc.tipo}</span>
-              <span className="sucursal__direccion">{suc.direccion}</span>
-            </a>
-          ))}
+          {SUCURSALES.map((suc) =>
+            desbloqueado ? (
+              <a
+                key={suc.id}
+                className="sucursal"
+                href={obtenerMapsUrl(suc)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Ver ${suc.tipo} en Google Maps: ${suc.direccion}`}
+              >
+                <span className="sucursal__icono" aria-hidden="true">{iconoPin}</span>
+                <span className="sucursal__tipo">{suc.tipo}</span>
+                <span className="sucursal__direccion">{suc.direccion}</span>
+              </a>
+            ) : (
+              <button
+                key={suc.id}
+                disabled
+                className="sucursal sucursal--bloqueada"
+                aria-label={`Sucursal bloqueada: ${suc.tipo} ${suc.direccion}`}
+              >
+                <span className="sucursal__icono" aria-hidden="true">{iconoPin}</span>
+                <span className="sucursal__tipo">{suc.tipo}</span>
+                <span className="sucursal__direccion">{suc.direccion}</span>
+              </button>
+            )
+          )}
         </div>
       </section>
 
@@ -74,8 +82,8 @@ function BranchFooter() {
         <h2 className="footer__titulo">SEGUINOS EN NUESTRAS REDES</h2>
         <div className="redes">
           {REDES_SOCIALES.map((red, idx) => (
-            <div key={red.id} style={{ display: 'contents' }}>
-              
+            <Fragment key={red.id}>
+              <a
                 className="red"
                 href={red.url}
                 target="_blank"
@@ -90,7 +98,7 @@ function BranchFooter() {
               {idx < REDES_SOCIALES.length - 1 && (
                 <span className="redes__separador" aria-hidden="true" />
               )}
-            </div>
+            </Fragment>
           ))}
         </div>
       </section>

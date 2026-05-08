@@ -58,6 +58,121 @@ input {
   font-size: 16px;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-sm);
+  padding: var(--espacio-md) 0;
+  text-align: center;
+}
+
+.header__logo-wrap {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.header__logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--color-blanco);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  display: block;
+}
+
+.header__titulo {
+  color: var(--color-blanco);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.header__badge {
+  background: var(--color-blanco);
+  color: var(--color-rojo);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: var(--radio-pill);
+  box-shadow: var(--sombra-rojo-fuerte);
+}
+
+.header__subtitulo {
+  color: var(--color-blanco);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.header__info-card {
+  width: 100%;
+  background: var(--color-blanco);
+  border-radius: var(--radio-card);
+  box-shadow: var(--sombra-rojo-fuerte);
+  display: flex;
+  align-items: stretch;
+}
+
+.header__info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 12px var(--espacio-sm);
+}
+
+.header__info-divisor {
+  width: 1px;
+  background: var(--color-gris-borde);
+  flex-shrink: 0;
+  margin: 10px 0;
+}
+
+.header__info-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-rojo);
+}
+
+.header__info-valor {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-negro);
+  word-break: break-all;
+  text-align: center;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--espacio-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-md);
+  min-height: 100vh;
+}
+
+.card-principal {
+  background: var(--color-blanco);
+  border-radius: var(--radio-card);
+  padding: var(--espacio-md);
+  box-shadow: var(--sombra-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
+}
+
 body {
   background-color: var(--color-rojo);
   background-image: radial-gradient(
@@ -74,4 +189,103 @@ body {
     ),
     linear-gradient(180deg, var(--color-rojo) 0%, var(--color-rojo-oscuro) 100%);
   background-attachment: fixed;
+}
+
+/* ---- Pantallas muy pequeñas (< 360px) ---- */
+@media (max-width: 359px) {
+  .app-container {
+    padding: var(--espacio-sm);
+    gap: var(--espacio-sm);
+  }
+
+  .header__logo-wrap,
+  .header__logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .header__titulo {
+    font-size: 18px;
+  }
+
+  .header__badge {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+
+  .header__info-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .header__info-valor {
+    font-size: 12px;
+  }
+
+  .card-principal {
+    padding: var(--espacio-sm);
+  }
+}
+
+/* ---- Tablet y PC (>= 640px) ---- */
+@media (min-width: 640px) {
+  .app-container {
+    max-width: 600px;
+    padding: var(--espacio-lg);
+    gap: var(--espacio-lg);
+  }
+
+  .header__logo-wrap,
+  .header__logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .header__titulo {
+    font-size: 26px;
+  }
+
+  .header__badge {
+    font-size: 16px;
+    padding: 10px 28px;
+  }
+
+  .header__subtitulo {
+    font-size: 15px;
+  }
+
+  .header__info-item {
+    padding: 14px var(--espacio-md);
+  }
+
+  .header__info-label {
+    font-size: 10px;
+  }
+
+  .header__info-valor {
+    font-size: 15px;
+  }
+
+  .card-principal {
+    padding: var(--espacio-lg);
+    gap: var(--espacio-md);
+  }
+}
+
+/* ---- Desktop (>= 1024px) ---- */
+@media (min-width: 1024px) {
+  .app-container {
+    max-width: 660px;
+    padding: var(--espacio-xl) var(--espacio-lg);
+  }
+
+  .header__logo-wrap,
+  .header__logo {
+    width: 114px;
+    height: 114px;
+  }
+
+  .header__titulo {
+    font-size: 28px;
+  }
 }
