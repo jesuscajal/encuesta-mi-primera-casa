@@ -57,6 +57,7 @@ function App() {
   const codigoPromotor =
     params.get("codigo_promotor") ??
     params.get("promotor") ??
+    params.get("vendedor") ??
     params.get("v") ??
     obtenerCodigoPromotor(codigoQr);
   const idSorteo =
