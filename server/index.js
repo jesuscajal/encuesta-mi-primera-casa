@@ -151,8 +151,7 @@ app.post("/api/survey", async (req, res) => {
 if (existsSync(distPath)) {
   app.use(express.static(distPath));
 
-  app.get("*", (req, res, next) => {
-    if (req.path.startsWith("/api")) return next();
+  app.get(/^(?!\/api).*/, (_req, res) => {
     return res.sendFile(path.join(distPath, "index.html"));
   });
 }
