@@ -141,9 +141,17 @@ app.post("/api/survey", async (req, res) => {
       },
     });
   } catch (error) {
+    const detalle = error instanceof Error ? error.message : "Error desconocido";
+    const yaRegistrado = /registr|ya\s+exist|duplicate\s+key|unique.*constraint/i.test(detalle);
+    if (yaRegistrado) {
+      return res.status(409).json({
+        message: "Este teléfono ya está registrado en el sorteo.",
+        alreadyRegistered: true,
+      });
+    }
     return res.status(500).json({
       message: "Error al ejecutar procedimiento en SQL Server.",
-      detail: error instanceof Error ? error.message : "Error desconocido",
+      detail: detalle,
     });
   }
 });

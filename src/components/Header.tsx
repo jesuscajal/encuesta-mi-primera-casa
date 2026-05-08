@@ -9,7 +9,7 @@ function Header({ telefono, codigoPromotor }: Props) {
   return (
     <header className="header">
       <div className="header__logo-wrap">
-        <img className="header__logo" src={LOGO_URL} alt="Logo Mi Primera Casa S.A." />
+        <img className="header__logo" src={LOGO_URL} alt="Logo Mi Primer Casa S.A." />
       </div>
       <h1 className="header__titulo">{TEXTOS.tituloPrincipal}</h1>
       <span className="header__badge">{TEXTOS.badge}</span>
@@ -18,7 +18,7 @@ function Header({ telefono, codigoPromotor }: Props) {
       <div className="header__info-card">
         <div className="header__info-item">
           <span className="header__info-label">CELULAR</span>
-          <span className="header__info-valor">{telefono || "_"}</span>
+          <span className="header__info-valor">{telefono || "3"}</span>
         </div>
         <div className="header__info-divisor" aria-hidden="true" />
         <div className="header__info-item">

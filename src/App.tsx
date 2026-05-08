@@ -27,7 +27,7 @@ const ESTADO_INICIAL: FormData = {
 
 function obtenerCodigoPromotor(codigoCrudo: string): string {
   const coincidencia = codigoCrudo.toLowerCase().match(/_v(\d{1,2})$/);
-  return coincidencia ? `v${coincidencia[1]}` : "sin_codigo";
+  return coincidencia ? `v${coincidencia[1]}` : "roberto";
 }
 
 function obtenerIdSorteo(codigoCrudo: string): string {
@@ -45,6 +45,7 @@ function App() {
   const [errores, setErrores] = useState<string[]>([]);
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  const [yaRegistrado, setYaRegistrado] = useState(false);
   const [errorEnvio, setErrorEnvio] = useState("");
 
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
@@ -140,7 +141,15 @@ function App() {
         body: JSON.stringify(payload),
       });
       if (!response.ok) {
-        const body = (await response.json().catch(() => ({}))) as { message?: string };
+        const body = (await response.json().catch(() => ({}))) as {
+          message?: string;
+          alreadyRegistered?: boolean;
+        };
+        if (response.status === 409 || body.alreadyRegistered) {
+          setYaRegistrado(true);
+          setErrorEnvio(body.message ?? "Este teléfono ya está registrado en el sorteo.");
+          return;
+        }
         throw new Error(body.message ?? "No pudimos enviar la encuesta. Intentá nuevamente.");
       }
       setEnviado(true);
@@ -215,7 +224,7 @@ function App() {
 
             <QuestionCard
               icono={iconoInfo}
-              pregunta="¿Conocés la inmobiliaria Mi Primera Casa S.A.?"
+              pregunta="¿Conocés la inmobiliaria Mi Primer Casa S.A.?"
               valorSeleccionado={datos.conoceFirma}
               onChange={(v) => actualizarCampo("conoceFirma", v)}
             />
@@ -255,7 +264,7 @@ function App() {
         </>
       )}
 
-      <BranchFooter desbloqueado={enviado} />
+      <BranchFooter desbloqueado={enviado || yaRegistrado} />
     </div>
   );
 }
