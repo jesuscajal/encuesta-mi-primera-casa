@@ -68,9 +68,13 @@ function App() {
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
   const codigoQr =
     obtenerParametro(params, ["codigo_qr", "qr_code", "wa_msg", "codigo", "Codigo"]) || "";
+  /** Valor que envía la BD → SP `@usuario` (ej. SORTEO01_V1); no usar `vendedor` aquí. */
   const codigoPromotor =
-    obtenerParametro(params, ["codigo", "Codigo", "codigo_promotor", "promotor", "vendedor", "Vendedor", "v"]) ||
+    obtenerParametro(params, ["codigo", "Codigo", "codigo_promotor", "promotor", "v"]) ||
     obtenerCodigoPromotor(codigoQr);
+  /** Texto que muestra la tarjeta PROMOTOR en el encabezado (parámetro `vendedor`). */
+  const etiquetaPromotor =
+    obtenerParametro(params, ["vendedor", "Vendedor"]) || codigoPromotor;
   const idSorteo =
     normalizarIdSorteo(obtenerParametro(params, ["id_sorteo", "idSorteo", "sorteo_id", "raffle_id"])) ||
     normalizarIdSorteo(obtenerParametro(params, ["encuesta", "Encuesta", "ENCUESTA"])) ||
@@ -210,7 +214,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header telefono={telefono} codigoPromotor={codigoPromotor} />
+      <Header telefono={telefono} etiquetaPromotor={etiquetaPromotor} />
 
       {enviado ? (
         <SuccessMessage />

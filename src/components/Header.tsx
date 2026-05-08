@@ -2,10 +2,11 @@ import { LOGO_URL, TEXTOS } from "../data/branding";
 
 interface Props {
   telefono: string;
-  codigoPromotor: string;
+  /** Nombre o etiqueta del vendedor/promotor (viene del parámetro `vendedor` en la URL). */
+  etiquetaPromotor: string;
 }
 
-function Header({ telefono, codigoPromotor }: Props) {
+function Header({ telefono, etiquetaPromotor }: Props) {
   return (
     <header className="header">
       <div className="header__logo-wrap">
@@ -23,7 +24,7 @@ function Header({ telefono, codigoPromotor }: Props) {
         <div className="header__info-divisor" aria-hidden="true" />
         <div className="header__info-item">
           <span className="header__info-label">PROMOTOR</span>
-          <span className="header__info-valor">{codigoPromotor || "_"}</span>
+          <span className="header__info-valor">{etiquetaPromotor || "_"}</span>
         </div>
       </div>
     </header>
