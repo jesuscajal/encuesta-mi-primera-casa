@@ -210,7 +210,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header />
+      <Header telefono={telefono} codigoPromotor={codigoPromotor} />
 
       {enviado ? (
         <SuccessMessage />
@@ -278,7 +278,7 @@ function App() {
         </>
       )}
 
-      <BranchFooter />
+      <BranchFooter desbloqueado={enviado} />
     </div>
   );
 }
