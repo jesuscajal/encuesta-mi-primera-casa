@@ -212,6 +212,18 @@
   color: var(--color-gris-texto);
 }
 
+@keyframes sorpresa-logo-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 8px rgba(180, 20, 40, 0.25));
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 6px 18px rgba(180, 20, 40, 0.45));
+  }
+}
+
 @keyframes sorpresa-tocar-respirar {
   0%,
   100% {
@@ -234,45 +246,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes sorpresa-40-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.2) rotate(-12deg);
-  }
-  55% {
-    opacity: 1;
-    transform: scale(1.08) rotate(0deg);
-  }
-  75% {
-    transform: scale(0.98) rotate(0deg);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes sorpresa-40-brillo {
-  0%,
-  100% {
-    filter: drop-shadow(0 4px 16px rgba(200, 17, 26, 0.35));
-  }
-  50% {
-    filter: drop-shadow(0 10px 36px rgba(200, 17, 26, 0.6));
-  }
-}
-
-@keyframes sorpresa-rayo {
-  0%,
-  100% {
-    opacity: 0.15;
-    transform: scale(0.85);
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(1.05);
   }
 }
 
@@ -344,13 +317,13 @@
   opacity: 0.9;
 }
 
-.sorpresa-card__tocar-icono {
+.sorpresa-card__tocar-logo {
   position: relative;
-  width: 52px;
-  height: 52px;
-  color: var(--color-rojo);
   z-index: 1;
-  filter: drop-shadow(0 2px 8px rgba(200, 17, 26, 0.25));
+  width: min(160px, 48vw);
+  height: auto;
+  display: block;
+  animation: sorpresa-logo-pulse 1.35s ease-in-out infinite;
 }
 
 .sorpresa-card__tocar-texto {
@@ -386,84 +359,14 @@
   animation: sorpresa-panel-entra 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.sorpresa-card__oferta-visual {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 5.5rem;
-  margin-bottom: 4px;
-}
-
-.sorpresa-card__rayo {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--color-rojo-claro);
-  opacity: 0.4;
-  animation: sorpresa-rayo 1.8s ease-in-out infinite;
-}
-
-.sorpresa-card__rayo--1 {
-  top: 8%;
-  left: 18%;
-  animation-delay: 0s;
-}
-
-.sorpresa-card__rayo--2 {
-  top: 22%;
-  right: 14%;
-  animation-delay: 0.35s;
-}
-
-.sorpresa-card__rayo--3 {
-  bottom: 18%;
-  left: 50%;
-  transform: translateX(-50%);
-  animation-delay: 0.65s;
-}
-
-.sorpresa-card__pct-hero {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 2px;
-}
-
-.sorpresa-card__pct-num {
-  font-size: clamp(3.25rem, 18vw, 4.25rem);
-  font-weight: 900;
-  color: var(--color-rojo);
-  line-height: 1;
-  letter-spacing: -0.04em;
-  animation:
-    sorpresa-40-pop 0.85s cubic-bezier(0.22, 1, 0.36, 1) both,
-    sorpresa-40-brillo 2.4s ease-in-out 0.85s infinite;
-}
-
-.sorpresa-card__pct-sign {
-  font-size: clamp(1.85rem, 10vw, 2.5rem);
-  font-weight: 800;
-  color: var(--color-rojo);
-  line-height: 1;
-  animation:
-    sorpresa-40-pop 0.85s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both,
-    sorpresa-40-brillo 2.4s ease-in-out 0.95s infinite;
-}
-
 .sorpresa-card__oferta-titulo {
   margin: 0;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 800;
   color: var(--color-rojo);
   line-height: 1.25;
   text-align: center;
-  animation: sorpresa-fade-subir 0.55s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: sorpresa-fade-subir 0.55s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .sorpresa-card__oferta-texto {
@@ -474,7 +377,7 @@
   color: var(--color-gris-texto);
   text-align: center;
   max-width: 26rem;
-  animation: sorpresa-fade-subir 0.55s 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: sorpresa-fade-subir 0.55s 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .sorpresa-card__btn-asesor {
@@ -492,7 +395,7 @@
   letter-spacing: 0.02em;
   box-shadow: var(--sombra-rojo-suave);
   transition: opacity 0.15s ease;
-  animation: sorpresa-fade-subir 0.55s 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: sorpresa-fade-subir 0.55s 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .sorpresa-card__btn-asesor:hover {

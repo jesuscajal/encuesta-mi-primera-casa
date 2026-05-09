@@ -81,10 +81,12 @@
   background: var(--color-gris-fondo);
 }
 
-.sorteos-historial__fila {
+.sorteos-historial__cabecera {
   display: flex;
-  flex-direction: column;
-  gap: var(--espacio-xs);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-sm);
 }
 
 .sorteos-historial__año-wrap {
@@ -95,6 +97,8 @@
   font-weight: 800;
   font-size: 13px;
   letter-spacing: 0.04em;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .sorteos-historial__icono-año {
@@ -119,19 +123,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  align-self: flex-start;
-  padding: 10px 14px;
+  gap: 6px;
+  flex: 0 1 auto;
+  max-width: 100%;
+  padding: 8px 12px;
   border-radius: var(--radio-input);
   border: 2px solid var(--color-rojo);
   background: var(--color-blanco);
   color: var(--color-rojo);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
   font-family: inherit;
   cursor: pointer;
+  text-align: center;
+  line-height: 1.25;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
@@ -413,6 +420,11 @@
 
   .redes {
     gap: var(--espacio-lg);
+  }
+
+  .sorteos-historial__btn-fotos {
+    font-size: 12px;
+    padding: 10px 14px;
   }
 }
 

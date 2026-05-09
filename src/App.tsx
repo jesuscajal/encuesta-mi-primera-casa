@@ -67,14 +67,27 @@ function nombrePromotorParaMostrar(texto: string): string {
 }
 
 function App() {
+  const params = useMemo(() => new URLSearchParams(window.location.search), []);
+
+  /** Solo en `npm run dev`: ver pantalla post-envío sin llamar a la API. */
+  const previewEnviado =
+    import.meta.env.DEV &&
+    (params.get("preview") === "enviado" || params.get("preview") === "ok");
+  const previewYaRegistrado =
+    import.meta.env.DEV &&
+    params.get("preview") === "registrado" &&
+    !previewEnviado;
+
   const [datos, setDatos] = useState<FormData>(ESTADO_INICIAL);
   const [errores, setErrores] = useState<string[]>([]);
   const [enviando, setEnviando] = useState(false);
-  const [enviado, setEnviado] = useState(false);
+  const [enviado, setEnviado] = useState(previewEnviado);
   const [errorEnvio, setErrorEnvio] = useState("");
-  const [mensajeYaRegistrado, setMensajeYaRegistrado] = useState("");
-
-  const params = useMemo(() => new URLSearchParams(window.location.search), []);
+  const [mensajeYaRegistrado, setMensajeYaRegistrado] = useState(
+    previewYaRegistrado
+      ? "Vista previa: participación ya registrada."
+      : ""
+  );
   const codigoQr =
     obtenerParametro(params, ["codigo_qr", "qr_code", "wa_msg", "codigo", "Codigo"]) || "";
   /** Valor que envía la BD → SP `@usuario` (ej. SORTEO01_V1); no usar `vendedor` aquí. */

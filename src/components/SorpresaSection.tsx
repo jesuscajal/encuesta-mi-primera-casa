@@ -1,28 +1,10 @@
 import { useCallback, useState } from "react";
-import { TEXTOS } from "../data/branding";
+import { LOGO_URL, TEXTOS } from "../data/branding";
 import { REDES_SOCIALES } from "../data/socialLinks";
 
 type Props = {
   telefono: string;
 };
-
-const iconoRegalo = (
-  <svg
-    className="sorpresa-card__tocar-icono"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" />
-    <path d="M22 7H2v5h20V7Z" />
-    <path d="M12 22V7" />
-    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7Z" />
-    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7Z" />
-  </svg>
-);
 
 function enlaceContactoAsesor(telefono: string): { href: string; externo: boolean } {
   const digits = telefono.replace(/\D/g, "");
@@ -66,7 +48,14 @@ function SorpresaSection({ telefono }: Props) {
           aria-controls="sorpresa-oferta-panel"
         >
           <span className="sorpresa-card__tocar-brillo" aria-hidden="true" />
-          {iconoRegalo}
+          <img
+            src={LOGO_URL}
+            alt=""
+            className="sorpresa-card__tocar-logo"
+            width={160}
+            height={160}
+            decoding="async"
+          />
           <span className="sorpresa-card__tocar-texto">{TEXTOS.sorpresaCta}</span>
         </button>
       ) : null}
@@ -78,16 +67,6 @@ function SorpresaSection({ telefono }: Props) {
           role="region"
           aria-labelledby="sorpresa-oferta-titulo"
         >
-          <div className="sorpresa-card__oferta-visual" aria-hidden="true">
-            <span className="sorpresa-card__rayo sorpresa-card__rayo--1" />
-            <span className="sorpresa-card__rayo sorpresa-card__rayo--2" />
-            <span className="sorpresa-card__rayo sorpresa-card__rayo--3" />
-            <div className="sorpresa-card__pct-hero">
-              <span className="sorpresa-card__pct-num">40</span>
-              <span className="sorpresa-card__pct-sign">%</span>
-            </div>
-          </div>
-
           <p id="sorpresa-oferta-titulo" className="sorpresa-card__oferta-titulo">
             {TEXTOS.sorpresaDescuentoEncabezado}
           </p>

@@ -61,24 +61,24 @@ function SorteosHistorial() {
       <ul className="sorteos-historial__lista">
         {SORTEOS_HISTORIAL.map((item) => (
           <li key={item.año} className="sorteos-historial__item">
-            <div className="sorteos-historial__fila">
+            <div className="sorteos-historial__cabecera">
               <div className="sorteos-historial__año-wrap">
                 {iconoCalendario}
                 <span className="sorteos-historial__año">{item.año}</span>
               </div>
-              <p className="sorteos-historial__detalle">{item.detalle}</p>
+              <a
+                className="sorteos-historial__btn-fotos"
+                href={item.fotosUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="sorteos-historial__btn-fotos-icono" aria-hidden="true">
+                  {iconoCamara}
+                </span>
+                {TEXTOS.historialSorteosBtnFotos}
+              </a>
             </div>
-            <a
-              className="sorteos-historial__btn-fotos"
-              href={item.fotosUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="sorteos-historial__btn-fotos-icono" aria-hidden="true">
-                {iconoCamara}
-              </span>
-              {TEXTOS.historialSorteosBtnFotos}
-            </a>
+            <p className="sorteos-historial__detalle">{item.detalle}</p>
           </li>
         ))}
       </ul>
