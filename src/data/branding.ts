@@ -4,7 +4,21 @@ export const LOGO_URL = logoArreglado;
 
 export const TEXTOS = {
   tituloPrincipal: "MI PRIMER CASA S.A.",
-  badge: "¡COMPLETÁ Y PARTICIPÁ!",
-  subtitulo: "POR 2 MOTOS 110CC Y UN TERRENO",
+  badge: "COMPLETA Y PARTICIPA GRATIS!",
+
+  premioPrincipalEtiqueta: "PREMIO PRINCIPAL",
+  premioPrincipalDetalle: "UN TERRENO 10X30 SOBRE AVENIDA",
+  premioExtraEtiqueta: "PREMIO EXTRA:",
+  premioExtraDetalle: "1 MOTO 110 CC Y 2 MOTOS ELÉCTRICAS",
   fechaSorteo: "Sorteamos el 21 de septiembre de 2026 ante escribano público.",
+
+  basesCondicionesTitulo: "Bases y condiciones",
+  basesCondicionesLineas: [
+    "Participá con el número del celular.",
+    "Para el premio principal debe abonar la suscripción.",
+    "Sorteo presencial ante escribano público.",
+  ],
+
+  sorpresaTitulo: "Tenemos una sorpresa para ti",
+  sorpresaCta: "Toque aquí",
 };

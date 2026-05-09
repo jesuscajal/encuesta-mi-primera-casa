@@ -3,6 +3,7 @@ import BranchFooter from "./components/BranchFooter";
 import Header from "./components/Header";
 import QuestionCard from "./components/QuestionCard";
 import SubmitButton from "./components/SubmitButton";
+import SorpresaSection from "./components/SorpresaSection";
 import SuccessMessage from "./components/SuccessMessage";
 import YaRegistradoMessage from "./components/YaRegistradoMessage";
 import TextInput from "./components/TextInput";
@@ -227,7 +228,10 @@ function App() {
       <Header telefono={telefono} etiquetaPromotor={etiquetaPromotor} />
 
       {enviado ? (
-        <SuccessMessage />
+        <>
+          <SuccessMessage />
+          <SorpresaSection />
+        </>
       ) : mensajeYaRegistrado ? (
         <YaRegistradoMessage mensaje={mensajeYaRegistrado} />
       ) : (
@@ -292,7 +296,7 @@ function App() {
         </>
       )}
 
-      <BranchFooter desbloqueado={enviado} />
+      <BranchFooter desbloqueado={enviado || mensajeYaRegistrado.length > 0} />
     </div>
   );
 }

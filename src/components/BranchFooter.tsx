@@ -42,7 +42,7 @@ function BranchFooter({ desbloqueado }: Props) {
   return (
     <footer className="footer">
       {/* ---- Sucursales ---- */}
-      <section className="footer__seccion">
+      <section id="seccion-sucursales" className="footer__seccion">
         <h2 className="footer__titulo">
           {desbloqueado ? 'NUESTRAS SUCURSALES' : 'ENVIÁ LA ENCUESTA PARA DESBLOQUEAR'}
         </h2>
@@ -105,6 +105,17 @@ function BranchFooter({ desbloqueado }: Props) {
 
       {/* ---- Aclaración legal ---- */}
       <p className="footer__aclaracion">{TEXTOS.fechaSorteo}</p>
+
+      <div className="footer__bases">
+        <p className="footer__bases-titulo">{TEXTOS.basesCondicionesTitulo}</p>
+        <ul className="footer__bases-lista">
+          {TEXTOS.basesCondicionesLineas.map((linea, idx) => (
+            <li key={idx} className="footer__bases-item">
+              {linea}
+            </li>
+          ))}
+        </ul>
+      </div>
     </footer>
   )
 }

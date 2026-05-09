@@ -52,6 +52,43 @@
   line-height: 1.4;
 }
 
+.footer__bases {
+  margin-top: var(--espacio-sm);
+  padding-top: var(--espacio-sm);
+}
+
+.footer__bases-titulo {
+  margin: 0 0 6px;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--color-gris-texto);
+  opacity: 0.62;
+}
+
+.footer__bases-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer__bases-item {
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--color-gris-texto);
+  opacity: 0.62;
+}
+
+.footer__bases-item::before {
+  content: "– ";
+}
+
 /* ---- Sucursales — grilla 2 columnas ---- */
 
 .sucursales {
@@ -236,6 +273,11 @@
 
   .footer__aclaracion {
     font-size: 12px;
+  }
+
+  .footer__bases-titulo,
+  .footer__bases-item {
+    font-size: 10px;
   }
 
   .red {

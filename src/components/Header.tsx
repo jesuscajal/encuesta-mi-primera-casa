@@ -14,11 +14,21 @@ function Header({ telefono, etiquetaPromotor }: Props) {
       </div>
       <h1 className="header__titulo">{TEXTOS.tituloPrincipal}</h1>
       <span className="header__badge">{TEXTOS.badge}</span>
-      <p className="header__subtitulo">{TEXTOS.subtitulo}</p>
+
+      <div className="header__premios">
+        <div className="header__premio-bloque-principal">
+          <p className="header__premio-principal-titulo">{TEXTOS.premioPrincipalEtiqueta}</p>
+          <p className="header__premio-principal-detalle">{TEXTOS.premioPrincipalDetalle}</p>
+        </div>
+        <div className="header__premio-bloque-extra">
+          <p className="header__premio-extra-titulo">{TEXTOS.premioExtraEtiqueta}</p>
+          <p className="header__premio-extra-detalle">{TEXTOS.premioExtraDetalle}</p>
+        </div>
+      </div>
 
       <div className="header__info-card">
         <div className="header__info-item">
-          <span className="header__info-label">CELULAR</span>
+          <span className="header__info-label header__info-label--celular">CELULAR PARTICIPANTE</span>
           <span className="header__info-valor">{telefono || "_"}</span>
         </div>
         <div className="header__info-divisor" aria-hidden="true" />
